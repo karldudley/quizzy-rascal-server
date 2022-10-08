@@ -1,0 +1,30 @@
+{
+  "name": "quizzy-rascal-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/index.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karldudley/quizzy-rascal-server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/karldudley/quizzy-rascal-server/issues"
+  },
+  "homepage": "https://github.com/karldudley/quizzy-rascal-server#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "node-fetch": "^2.6.0",
+    "socket.io": "^4.5.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
