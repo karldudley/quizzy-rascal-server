@@ -1,5 +1,4 @@
-const https = require('https');
-const fetch = require('node-fetch');
+const axios = require('axios').default;
 
 const { getAllPlayers } = require('./players.js');
 
@@ -41,10 +40,8 @@ const setGameStatus = ({ event, playerId, answer, room }) => {
 
 const setGame = async callback => {
   try {
-    const response = await fetch(
-      'https://opentdb.com/api.php?amount=1&category=18'
-    );
-    const data = await response.json();
+    const { data } = await axios.get("https://opentdb.com/api.php?amount=1&category=18")
+    
     const {
       correct_answer,
       createdAt,

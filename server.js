@@ -78,6 +78,7 @@ io.on('connection', socket => {
 
     if (player) {
       const game = await setGame();
+
       io.to(player.room).emit('question', {
         playerName: player.playerName,
         ...game.prompt,
