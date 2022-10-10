@@ -4,6 +4,8 @@ const cors = require('cors')
 const http = require('http');
 const socketio = require('socket.io');
 
+const Quiz = require('./utils/quiz') 
+
 // MIDDLEWARE
 app.use(cors())
 app.use(express.json());
@@ -24,15 +26,47 @@ const io = socketio(server, {
   }
 });
 
+const quiz = new Quiz();
+
 io.on('connection', socket => {
+
   console.log(`A new player just connected on ${socket.id}`);
 
-  socket.on('join', (data) => {
-    socket.join(data)
+  //give a socket id to connection
+  socket.emit('assign-id', { id: socket.id});
+
+  socket.on("create", ({roomName, playerName }, callback) => {
+    //create room
+    socket.join(roomName)
+
+    //create a new game for the room
+    quiz.addGame(playerName, roomName, "hard", 10, "science")
+
+    //add new player
+    quiz.addPlayer(playerName, roomName)
+
+    //send callback message to client
+    callback({code: "success",
+              message: `SUCCESS: Created a new game, hosted by ${playerName}`
+    });
   })
 
-  socket.on('sendMessage', (data, callback) => {
-    socket.to(data.room).emit("receiveMessage", data)
+  socket.on("join", ({roomName, playerName }, callback) => {
+    //join room
+    socket.join(roomName)
+
+    //add new player
+    quiz.addPlayer(playerName, roomName)
+
+    //send callback message to client
+    callback({code: "success",
+              message: `SUCCESS: Added new player to game`
+    });
+  })
+
+  socket.on("lobby", () => {
+    //send details of game to lobby
+    io.emit("gameData", quiz);
   });
 
   socket.on('disconnect', () => {
