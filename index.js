@@ -15,7 +15,7 @@ require('dotenv').config()
 //     })
 
 
-// No MongoDB yet
+// No MongoDB connection yet
 server.listen(port, () => {
   console.log(`Socket server is up on port ${port}.`);
 });
