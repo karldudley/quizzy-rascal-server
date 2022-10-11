@@ -33,28 +33,24 @@ io.on('connection', socket => {
 
   console.log(`A new player just connected on ${socket.id}`);
 
-
   //give a socket id to connection
   socket.emit('assign-id', { id: socket.id});
 
-   socket.on("create", async ({roomName, playerName }, callback) => {
+  socket.on("create", ({roomName, playerName }, callback) => {
     //create room
     socket.join(roomName)
 
     //create a new game for the room
-    await quiz.addGame(playerName, roomName, "hard", 10, "science")
+    quiz.addGame(playerName, roomName, "hard", "8", "9")
 
     //add new player
     quiz.addPlayer(playerName, roomName)
+
     //send callback message to client
     callback({code: "success",
               message: `SUCCESS: Created a new game, hosted by ${playerName}`
     });
-
-
-    })
-
-  
+  })
 
   socket.on("join", ({roomName, playerName }, callback) => {
     //join room
@@ -63,16 +59,10 @@ io.on('connection', socket => {
     //add new player
     quiz.addPlayer(playerName, roomName)
 
-
-    
-    
-    console.log(quiz.games)
-  
-
     //send callback message to client
     callback({code: "success",
-              message: quiz.games[0].questionData
-    }); // If it fails? 
+              message: `SUCCESS: Added new player to game`
+    });
   })
 
   socket.on("lobby", (roomName) => {
@@ -83,9 +73,10 @@ io.on('connection', socket => {
   });
 
   socket.on("getQuestions", async (roomName) => {
-    //send player data to lobby for those in the room only
-    const response = await axios.get("https://opentdb.com/api.php?amount=10&category=9&difficulty=medium&type=multiple")
-    data = response.data.results
+    // send player data to lobby for those in the room only
+    // const response = await axios.get("https://opentdb.com/api.php?amount=10&category=9&difficulty=medium&type=multiple")
+    console.log(quiz.getQuestions(roomName))
+    data = await quiz.getQuestions(roomName)
     const host = quiz.getHost(roomName)
     
     io.in(roomName).emit('questions', data, host);
