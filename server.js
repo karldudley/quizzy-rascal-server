@@ -3,6 +3,7 @@ const app = express();
 const cors = require('cors')
 const http = require('http');
 const socketio = require('socket.io');
+const axios = require('axios');
 
 const Quiz = require('./utils/quiz') 
 
@@ -79,6 +80,15 @@ io.on('connection', socket => {
     const players = quiz.getPlayerData(roomName)
     const host = quiz.getHost(roomName)
     io.in(roomName).emit('playerData', players, host);
+  });
+
+  socket.on("getQuestions", async (roomName) => {
+    //send player data to lobby for those in the room only
+    const response = await axios.get("https://opentdb.com/api.php?amount=10&category=9&difficulty=medium&type=multiple")
+    data = response.data.results
+    const host = quiz.getHost(roomName)
+    
+    io.in(roomName).emit('questions', data, host);
   });
 
   socket.on("startGame", (roomName) => {
