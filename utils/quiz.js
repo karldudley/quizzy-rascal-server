@@ -1,3 +1,26 @@
+const axios = require('axios')
+
+async function getQuestionData(difficulty, count, subject) {
+
+    var roundData = [];
+
+    try{
+        const response = await axios.get(`https://opentdb.com/api.php?amount=${count}&category=${subject}&difficulty=${difficulty}&type=multiple`)
+        const data = response.data.results
+        // for(let i = 0; i < 10; i++) {
+         
+        //         roundData.push([data[i].question, data[i].incorrect_answers[0],data[i].incorrect_answers[1],data[i].incorrect_answers[2], data[i].correct_answer])                
+        // }
+        // return (roundData)
+        return(data)
+
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+
 class Quiz {
     constructor() {
 
@@ -13,7 +36,8 @@ class Quiz {
             count,
             subject,
             players: [],
-            active: false
+            active: false,
+            questionData: getQuestionData(difficulty, count, subject)
         }
 
         this.games.push(game);
@@ -53,6 +77,14 @@ class Quiz {
             return "error"
         }
         return game.hostName;
+    }
+    getQuestions (roomName) {
+        let game = this.games.find( y => y.roomName == roomName);
+
+        if(game === undefined ){
+            return "error"
+        }
+        return game.questionData;
     }
 }
 

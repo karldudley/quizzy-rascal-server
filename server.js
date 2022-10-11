@@ -41,7 +41,7 @@ io.on('connection', socket => {
     socket.join(roomName)
 
     //create a new game for the room
-    quiz.addGame(playerName, roomName, "hard", 10, "science")
+    quiz.addGame(playerName, roomName, "hard", "8", "9")
 
     //add new player
     quiz.addPlayer(playerName, roomName)
@@ -73,9 +73,10 @@ io.on('connection', socket => {
   });
 
   socket.on("getQuestions", async (roomName) => {
-    //send player data to lobby for those in the room only
-    const response = await axios.get("https://opentdb.com/api.php?amount=10&category=9&difficulty=medium&type=multiple")
-    data = response.data.results
+    // send player data to lobby for those in the room only
+    // const response = await axios.get("https://opentdb.com/api.php?amount=10&category=9&difficulty=medium&type=multiple")
+    console.log(quiz.getQuestions(roomName))
+    data = await quiz.getQuestions(roomName)
     const host = quiz.getHost(roomName)
     
     io.in(roomName).emit('questions', data, host);
