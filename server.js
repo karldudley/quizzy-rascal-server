@@ -36,12 +36,12 @@ io.on('connection', socket => {
   //give a socket id to connection
   socket.emit('assign-id', { id: socket.id});
 
-  socket.on("create", ({roomName, playerName }, callback) => {
+  socket.on("create", ({roomName, playerName, difficulty, count, category }, callback) => {
     //create room
     socket.join(roomName)
 
     //create a new game for the room
-    quiz.addGame(playerName, roomName, "hard", "8", "9")
+    quiz.addGame(playerName, roomName, difficulty, count , category)
 
     //add new player
     quiz.addPlayer(playerName, roomName)
