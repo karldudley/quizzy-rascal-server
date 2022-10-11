@@ -11,11 +11,13 @@ const getPlayers = async (req, res) => {
     }
 }
 
-// get a player by id
+// get a players by category
 const getPlayerById = async (req, res) => {
     try {
-        const player = await Player.findById(req.params.id)
-        res.status(200).json(player)
+        // const player = await Player.findById(req.params.id)
+        const players = await Player.find({category: req.params.id}).exec();
+        
+        res.status(200).json(players)
     } catch (error) {
         res.status(404).json({error: error.message})
     }
@@ -23,12 +25,12 @@ const getPlayerById = async (req, res) => {
 
 //create a new player
 const createPlayer = async (req, res) => {
-    const { newPlayer, highScore } = req.body;
+    const { newPlayer, highScore, category } = req.body;
     try {
         // pre-populated values
         const name = newPlayer;
         
-        const player = await Player.create({ name, highScore})
+        const player = await Player.create({ name, highScore, category})
         res.status(201).json(player)    
     } catch (error) {
         res.status(422).json({error: error.message})
