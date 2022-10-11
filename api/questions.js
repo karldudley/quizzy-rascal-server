@@ -1,7 +1,7 @@
 import { Express } from "express";
 import axios from "axios";
 
-async function getQuestionData() {
+export async function getQuestionData() {
 
     var roundData = []
 
@@ -10,9 +10,7 @@ async function getQuestionData() {
         const data = response.data.results
         for(let i = 0; i < 10; i++) {
          
-                roundData.push([data[i].question, data[i].incorrect_answers[0],data[i].incorrect_answers[1],data[i].incorrect_answers[2], data[i].correct_answer])
-                
-            
+                roundData.push([data[i].question, data[i].incorrect_answers[0],data[i].incorrect_answers[1],data[i].incorrect_answers[2], data[i].correct_answer])                
         }
         return (roundData)
 
@@ -21,4 +19,5 @@ async function getQuestionData() {
         console.log(error)
     }
 }
+
 
