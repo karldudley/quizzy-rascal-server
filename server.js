@@ -64,9 +64,16 @@ io.on('connection', socket => {
     });
   })
 
-  socket.on("lobby", () => {
-    //send details of game to lobby
-    io.emit("gameData", quiz);
+  socket.on("lobby", (roomName) => {
+    //send player data to lobby for those in the room only
+    const players = quiz.getPlayerData(roomName)
+    const host = quiz.getHost(roomName)
+    io.in(roomName).emit('playerData', players, host);
+  });
+
+  socket.on("startGame", (roomName) => {
+    //send signal to start the game to everyone in the room
+    io.in(roomName).emit('begin');
   });
 
   socket.on('disconnect', () => {
