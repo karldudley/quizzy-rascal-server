@@ -55,10 +55,28 @@ class Quiz {
         this.players.push(player);
 
         let game = this.games.find( y => y.roomName == roomName);
-        // console.log(game)
-        game.players.push(player);
+
+        (game) ? game.players.push(player) : console.log('Room not found');
 
         return player;
+    }
+
+    getPlayerData (roomName) {
+        let game = this.games.find( y => y.roomName == roomName);
+
+        if(game === undefined ){
+            return "error"
+        }
+        return game.players;
+    }
+
+    getHost (roomName) {
+        let game = this.games.find( y => y.roomName == roomName);
+
+        if(game === undefined ){
+            return "error"
+        }
+        return game.hostName;
     }
 }
 
