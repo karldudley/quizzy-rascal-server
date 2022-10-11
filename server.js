@@ -45,12 +45,15 @@ io.on('connection', socket => {
 
     //add new player
     quiz.addPlayer(playerName, roomName)
-    console.log(quiz.games[0].questionData)
     //send callback message to client
     callback({code: "success",
               message: `SUCCESS: Created a new game, hosted by ${playerName}`
     });
-  })
+
+
+    })
+
+  
 
   socket.on("join", ({roomName, playerName }, callback) => {
     //join room
@@ -59,9 +62,15 @@ io.on('connection', socket => {
     //add new player
     quiz.addPlayer(playerName, roomName)
 
+
+    
+    
+    console.log(quiz.games)
+  
+
     //send callback message to client
     callback({code: "success",
-              message: `SUCCESS: Added new player to game`
+              message: quiz.games[0].questionData
     }); // If it fails? 
   })
 
