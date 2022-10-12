@@ -130,6 +130,11 @@ class Quiz {
         }
         return game.questionData;
     }
+    getResults (roomName) {
+        const filteredRoom = this.players.filter(player => player.roomName === roomName);
+        // let players = this.players.find( y => y.roomName == roomName);
+        return filteredRoom;
+    }
 }
 
 module.exports = Quiz;
