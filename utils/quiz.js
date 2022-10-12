@@ -8,6 +8,18 @@ async function getQuestionData(difficulty, type, subject) {
         const questionsData = response.data.results
 
         // Re-factor question data object to make it easier to render. And decode using he dependency
+        // example of new format
+        //  [
+        //     {
+        //         questionText: 'What is the capital of France?',
+        //         answerOptions: [
+        //             { answerText: 'New York', isCorrect: false },
+        //             { answerText: 'London', isCorrect: false },
+        //             { answerText: 'Paris', isCorrect: true },
+        //             { answerText: 'Dublin', isCorrect: false },
+        //         ],
+        //     },
+        //  ]
         const questions = []
         questionsData.map((data) => {
             let questionText = he.decode(data.question)
