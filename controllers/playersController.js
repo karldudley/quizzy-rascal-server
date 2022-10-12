@@ -25,11 +25,8 @@ const getPlayerById = async (req, res) => {
 
 //create a new player
 const createPlayer = async (req, res) => {
-    const { newPlayer, highScore, category } = req.body;
-    try {
-        // pre-populated values
-        const name = newPlayer;
-        
+    const { name, highScore, category } = req.body;
+    try {        
         const player = await Player.create({ name, highScore, category})
         res.status(201).json(player)    
     } catch (error) {
