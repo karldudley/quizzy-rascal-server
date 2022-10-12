@@ -89,6 +89,11 @@ io.on('connection', socket => {
   
   });
 
+  socket.on("results", (roomName) => {
+    let players = quiz.getResults(roomName)
+    io.in(roomName).emit("resultsData", players);
+  });
+
   socket.on('disconnect', () => {
     console.log('A player disconnected');
   });
