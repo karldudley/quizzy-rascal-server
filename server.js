@@ -79,10 +79,15 @@ io.on('connection', socket => {
     io.in(roomName).emit('begin', data);
   });
 
-  // socket.on("record", (score, { roomName, playerName }) => {
-  //   quiz.updatePlayer(score, roomName, playerName )
+  socket.on("record", (score, { roomName, playerName }, callback) => {
+    quiz.updatePlayer(score, roomName, playerName )
+
+    //send callback message to client
+    callback({code: "success",
+              message: `SUCCESS: Added score data to quiz class`
+    });
   
-  // });
+  });
 
   socket.on('disconnect', () => {
     console.log('A player disconnected');
