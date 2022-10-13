@@ -20,8 +20,7 @@
 7. [Code Snippets](/README.md#code-snippets)
 8. [Testing](/README.md#testing)
 9. [Future Features](/README.md#future-features)
-10. [License](/README.md#license)
-11. [Contributors](/README.md#contributors)
+10. [Contributors](/README.md#contributors)
 
 ## Installation and Usage
 
@@ -64,11 +63,11 @@ The deployed server can be found on [heroku](https://quizzy-rascal-server.heroku
 
 | Route name | Path                                            | Method        | Purpose                            |
 | ---------- | ----------------------------------------------- | ------------- | ---------------------------------- |
-| show       | `/habits/`                                      | `GET`         | Get all player scores              |
-| show       | `/habits/:id`                                   | `GET`         | Get player scores by category      |
-| create     | `/habits/`                                      | `POST`        | Post a new high score              |
-| destroy    | `/habits/:id`                                   | `DELETE`      | Delete a player high score         |
-| update     | `/habits/:id`                                   | `PATCH`       | Update a player high score         |
+| show       | `/players/`                                      | `GET`         | Get all player scores              |
+| show       | `/players/:id`                                   | `GET`         | Get player scores by category      |
+| create     | `/players/`                                      | `POST`        | Post a new high score              |
+| destroy    | `/players/:id`                                   | `DELETE`      | Delete a player high score         |
+| update     | `/players/:id`                                   | `PATCH`       | Update a player high score         |
 
 
 ## Server and DB Screenshots
