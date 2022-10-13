@@ -79,6 +79,12 @@ io.on('connection', socket => {
     io.in(roomName).emit('begin', data);
   });
 
+  socket.on("updatescores", ({playerName, score, roomName}) => {
+    quiz.changeScore(playerName, score)
+    const players = quiz.getPlayerData(roomName)
+    socket.emit('broadcastupdate', players)
+  })
+
   socket.on("record", (score, { roomName, playerName }, callback) => {
     quiz.updatePlayer(score, roomName, playerName )
 
