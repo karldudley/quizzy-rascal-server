@@ -84,7 +84,7 @@ class Quiz {
             roomName, 
             score: 0
         }
-
+        this.players.push(player);
         let game = this.games.find( y => y.roomName == roomName);
 
         (game) ? game.players.push(player) : console.log('Room not found');
@@ -134,6 +134,11 @@ class Quiz {
         const filteredRoom = this.players.filter(player => player.roomName === roomName);
         // let players = this.players.find( y => y.roomName == roomName);
         return filteredRoom;
+    }
+    changeScore(playerName, points) {
+        let idx = this.players.findIndex( y => y.playerName == playerName);
+        console.log(idx)
+        this.players[idx].score = points
     }
 }
 
