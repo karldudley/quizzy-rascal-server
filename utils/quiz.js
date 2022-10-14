@@ -1,10 +1,10 @@
 const axios = require('axios')
 var he = require('he');
 
-async function getQuestionData(difficulty, type, subject) {
+async function getQuestionData(difficulty, count, subject) {
 
     try{
-        const response = await axios.get(`https://opentdb.com/api.php?amount=10&category=${subject}&difficulty=${difficulty}&type=${type}`)
+        const response = await axios.get(`https://opentdb.com/api.php?amount=${count}&category=${subject}&difficulty=${difficulty}&type=multiple`)
         const questionsData = response.data.results
 
         // Re-factor question data object to make it easier to render. And decode using he dependency
@@ -35,6 +35,15 @@ async function getQuestionData(difficulty, type, subject) {
             }
             questions.push(newObject)
         })
+        questions.push({
+                    questionText: 'What is the capital of France?',
+                    answerOptions: [
+                        { answerText: 'New York', isCorrect: false },
+                        { answerText: 'London', isCorrect: false },
+                        { answerText: 'Paris', isCorrect: true },
+                        { answerText: 'Dublin', isCorrect: false },
+                    ]
+                })
         
         return(questions)
     }
@@ -62,16 +71,21 @@ class Quiz {
         this.players = [];
     }
 
-    addGame (hostName, roomName, difficulty, type, subject) {
+    cleanUp() {
+        this.games = []
+        this.players = []
+    }
+
+    addGame (hostName, roomName, difficulty, count, subject) {
         let game = {
             hostName,
             roomName,
             difficulty,
-            type,
+            count,
             subject,
             players: [],
             active: false,
-            questionData: getQuestionData(difficulty, type, subject)
+            questionData: getQuestionData(difficulty, count, subject)
         }
 
         this.games.push(game);
@@ -138,7 +152,6 @@ class Quiz {
     }
     changeScore(playerName, points) {
         let idx = this.players.findIndex( y => y.playerName == playerName);
-        console.log(idx)
         this.players[idx].score = points
     }
 }
