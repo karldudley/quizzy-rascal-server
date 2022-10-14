@@ -36,13 +36,13 @@ io.on('connection', socket => {
   //give a socket id to connection
   socket.emit('assign-id', { id: socket.id});
 
-  socket.on("create", ({roomName, playerName, difficulty, type, category }, callback) => {
+  socket.on("create", ({roomName, playerName, difficulty, count, category }, callback) => {
     
     //create room
     socket.join(roomName)
 
     //create a new game for the room
-    quiz.addGame(playerName, roomName, difficulty, type , category)
+    quiz.addGame(playerName, roomName, difficulty, count , category)
 
     //add new player
     quiz.addPlayer(playerName, roomName)
@@ -82,7 +82,7 @@ io.on('connection', socket => {
   socket.on("updatescores", ({playerName, score, roomName}) => {
     quiz.changeScore(playerName, score)
     const players = quiz.getPlayerData(roomName)
-    socket.emit('broadcastupdate', players)
+    io.in(roomName).emit('broadcastupdate', players)
   })
 
   socket.on("record", (score, { roomName, playerName }, callback) => {
@@ -97,8 +97,16 @@ io.on('connection', socket => {
 
   socket.on("results", (roomName) => {
     let players = quiz.getResults(roomName)
+    //clear quiz ready for next game
+    
     io.in(roomName).emit("resultsData", players);
   });
+
+  socket.on("clean", () => {
+    quiz.cleanUp()
+  });
+
+
 
   socket.on('disconnect', () => {
     console.log('A player disconnected');
